@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block customcss %}
+  <link rel="stylesheet" href="{% static 'login/css/styleLogin.css' %}">
+{% endblock%}
+
+{% block bodycontent %}
+  <body>
+  {% if request.user.is_authenticated %}
+    <h1>Yes buddy you are login in</h1>
+    <h1>{{request.user.username}}</h1>
+  {% else %}
+    <form action="/login/" method="POST">
+      {% csrf_token %}
+      <div class="imgcontainer">
+        <img src="{% static 'login/imgs/img_avatar2.png' %}" alt="Avatar" class="avatar" style="">
+      </div>
+
+      <div class="container">
+        <div class="col-sm-offset-3 col-sm-6">
+          <label><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="username" required>
+
+          <label><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password" required>
+          <button type="submit" name="LoginType" value="SignIn" >Login</button>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+
+  </body>
+{% endblock %}
