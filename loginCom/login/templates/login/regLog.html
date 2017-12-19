@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block customcss %}
+  <link rel="stylesheet" href="{% static 'login/css/styleLogin.css' %}">
+  <link rel="stylesheet" href="{% static 'login/css/user_profile.css' %}">
+{% endblock %}
+
+{% block bodycontent %}
+  <body>
+  {% if request.user.is_authenticated %}
+  <div class="container">
+    <div class="card">
+      <img src="{% static 'login/imgs/team2.jpg' %}" alt="John" style="width:100%">
+      <h1>{{request.user.username}}</h1>
+      <p class="title">CEO & Founder, Example</p>
+      <p>{{request.user.email}}</p>
+      <a href="/logout/"><small>logout</small></a>
+    </div>
+  </div>
+  {% else %}
+  <div class="container">
+  <div class="col-sm-5">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="imgcontainer">
+        <h1>Login</h1>
+        <img src="{% static 'login/imgs/img_avatar2.png' %}" alt="Avatar" class="avatar" style="">
+      </div>
+          <label><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="username" required>
+
+          <label><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password" required>
+          <button type="submit" name="LoginType" value="SignIn" >Login</button>
+    </form>
+  </div>
+  <div class="col-sm-offset-2 col-sm-5">
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="imgcontainer">
+        <h1>Registration</h1>
+        <img src="{% static 'login/imgs/img_avatar2.png' %}" alt="Avatar" class="avatar" style="">
+      </div>
+
+          <label><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="username" required>
+
+          <label><b>First Name</b></label>
+          <input type="text" placeholder="Enter Username" name="firstname" required>
+
+          <label><b>Last Name</b></label>
+          <input type="text" placeholder="Enter Username" name="lastname" required>
+
+          <label><b>Email</b></label>
+          <input type="text" placeholder="Enter Username" name="email" required>
+
+
+          <label><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password1" required>
+          <label><b>Retype your password</b></label>
+          <input type="password" placeholder="Enter Password" name="password2" required>
+          <button type="submit" name="LoginType" value="SignUp" >Registration</button>
+    </form>
+  </div>
+  </div>
+  {% endif %}
+
+  </body>
+{% endblock %}

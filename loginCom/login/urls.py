@@ -8,4 +8,6 @@ app_name = 'login'
 urlpatterns = [
     url(r'^$', views.homeView, name='HomeView'),
     url(r'^login/$', views.dealLogin, name='DealLogin'),
+    url(r'^logout/$', views.dealLogout, name='DealLogout'),
+    url(r'^reg/$', views.dealReg, name='DealReg'),
 ]

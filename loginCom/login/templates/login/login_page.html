@@ -3,13 +3,22 @@
 
 {% block customcss %}
   <link rel="stylesheet" href="{% static 'login/css/styleLogin.css' %}">
-{% endblock%}
+  <link rel="stylesheet" href="{% static 'login/css/user_profile.css' %}">
+{% endblock %}
 
 {% block bodycontent %}
   <body>
   {% if request.user.is_authenticated %}
-    <h1>Yes buddy you are login in</h1>
-    <h1>{{request.user.username}}</h1>
+  <div class="container">
+    <div class="card">
+      <img src="{% static 'login/imgs/team2.jpg' %}" alt="John" style="width:100%">
+      <h1>{{request.user.username}}</h1>
+      <h2>{{request.user.first_name}} {{request.user.last_name}}</h2>
+      <p class="title">CEO & Founder, Example</p>
+      <p>{{request.user.email}}</p>
+      <a href="/logout/"><small>logout</small></a>
+    </div>
+  </div>
   {% else %}
     <form action="/login/" method="POST">
       {% csrf_token %}
