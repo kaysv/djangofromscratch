@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+import time
 
 # Create your views here.
 def homeView(request):
@@ -66,3 +67,15 @@ def dealReg(request):
         else:
             pass
     return render(request,'login/regLog.html',{})
+
+
+def dealVerifyUser(request):
+    time.sleep(3)
+    if request.method=="POST":
+        if request.POST.get("loginType")=="check_user_exist":
+            print(request.POST.get("username"))
+            if User.objects.filter(username=request.POST.get("username")):
+                return HttpResponse("failure")
+            else:
+                return HttpResponse("success")
+    return redirect("/")

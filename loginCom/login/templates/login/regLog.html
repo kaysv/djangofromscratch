@@ -1,9 +1,11 @@
-{% extends 'base.html' %}
+  {% extends 'base.html' %}
 {% load static %}
 
 {% block customcss %}
   <link rel="stylesheet" href="{% static 'login/css/styleLogin.css' %}">
   <link rel="stylesheet" href="{% static 'login/css/user_profile.css' %}">
+  <link rel="stylesheet" href="{% static 'login/css/error.css' %}">
+  <link rel="stylesheet" href="{% static 'login/css/loader.css' %}">
 {% endblock %}
 
 {% block bodycontent %}
@@ -21,7 +23,7 @@
   {% else %}
   <div class="container">
   <div class="col-sm-5">
-    <form action="" method="POST">
+    <form action="" method="POST" id="login-form">
       {% csrf_token %}
       <div class="imgcontainer">
         <h1>Login</h1>
@@ -36,7 +38,7 @@
     </form>
   </div>
   <div class="col-sm-offset-2 col-sm-5">
-    <form action="" method="POST">
+    <form action="" id="reg-form" >
       {% csrf_token %}
       <div class="imgcontainer">
         <h1>Registration</h1>
@@ -44,27 +46,92 @@
       </div>
 
           <label><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="username" required>
+          <input class="errorChecking" id="username" type="text" placeholder="Enter Username" name="username" required>
+          <i id="spinner" class="hidden fa fa-spinner fa-spin"></i>
+          <span id="usernameErrorLabel" class="label label-danger" style="display:none;">Error Occured</span><br>
 
           <label><b>First Name</b></label>
-          <input type="text" placeholder="Enter Username" name="firstname" required>
+          <input class="errorChecking" id="firstname" type="text" placeholder="Enter Username" name="firstname" required>
 
           <label><b>Last Name</b></label>
-          <input type="text" placeholder="Enter Username" name="lastname" required>
+          <input class="errorChecking" id="lastname" type="text" placeholder="Enter Username" name="lastname" required>
 
           <label><b>Email</b></label>
-          <input type="text" placeholder="Enter Username" name="email" required>
+          <input class="errorChecking" id="email" type="email" placeholder="Enter Username" name="email" required>
 
 
           <label><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="password1" required>
+          <input class="errorChecking" id="password1" type="password" placeholder="Enter Password" name="password1" required>
           <label><b>Retype your password</b></label>
-          <input type="password" placeholder="Enter Password" name="password2" required>
-          <button type="submit" name="LoginType" value="SignUp" >Registration</button>
+          <input class="errorChecking" id="password2" type="password" placeholder="Enter Password" name="password2" required>
+          <button id="reg-submit" type="submit" name="LoginType" value="SignUp" >Registration</button>
+    </form>
+    <form id="abc" class="" action="index.html" method="post">
+      {% csrf_token %}
     </form>
   </div>
   </div>
   {% endif %}
 
   </body>
+{% endblock %}
+
+{% block extrajs %}
+  <script>
+    // $("#reg-submit").click(function(e){
+    //
+    // });
+    //
+    // $(".errorChecking").focusout(function(e){
+    //   // alert("key is up");
+    //
+    //   if(!$(this).val()){
+    //     $(this).addClass("errorasempty");
+    //     $("#usernameErrorLabel").css("display","block");
+    //     // $("#usernameErrorLabel").html("from dalfjladjfl");
+    //
+    //
+    //   }else{
+    //     $(this).removeClass("errorasempty");
+    //     $("#usernameErrorLabel").css("display","none");
+    //   }
+    //
+    // });
+  </script>
+  <script>
+    $("#username").change(function(e){
+      $("#usernameErrorLabel").css("display","none");
+      var formData=new FormData();
+      // var myData = new FormData($("#login-form")[0]); (incase you want whole form to be posted)
+      formData.append('username',$(this).val())
+      formData.append('loginType','check_user_exist');
+      formData.append('csrfmiddlewaretoken','{{ csrf_token }}');
+      $("#spinner").removeClass("hidden");
+      $.ajax({
+        type:"POST",
+        url:"/verifyuser/",
+        data:formData,
+        processData:false,
+        contentType:false,
+        success:function(result){
+          $("#spinner").addClass("hidden");
+          if(result == "success"){
+            $("#usernameErrorLabel").css("display","block");
+            $("#usernameErrorLabel").html("available");
+            $("#usernameErrorLabel").css("background","green");
+
+          }else{
+            $("#usernameErrorLabel").css("display","block");
+            $("#usernameErrorLabel").html("sorry username is taken.");
+            $("#usernameErrorLabel").css("background","red");
+          }
+        },
+        error:function(result){
+          $("#spinner").addClass("hidden");
+          $("#usernameErrorLabel").html("Something Went Wrong.");
+        }
+      });
+
+    });
+  </script>
 {% endblock %}

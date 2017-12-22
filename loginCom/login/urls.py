@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^login/$', views.dealLogin, name='DealLogin'),
     url(r'^logout/$', views.dealLogout, name='DealLogout'),
     url(r'^reg/$', views.dealReg, name='DealReg'),
+    url(r'^verifyuser/$', views.dealVerifyUser, name='DealVerifyUser'),
 ]
