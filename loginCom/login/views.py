@@ -79,3 +79,28 @@ def dealVerifyUser(request):
             else:
                 return HttpResponse("success")
     return redirect("/")
+
+def dealAjaxReg(request):
+    time.sleep(4)
+    if request.method=="POST":
+        pass1 = request.POST.get('password1')
+        pass2 = request.POST.get('password2')
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        print(
+                'firstname :'+ firstname + \
+                'lastname :' + lastname + \
+                'password :' + pass1 + \
+                'email :' + email +\
+                'username :' + username
+                )
+        # user = User.objects.create_user(username=username,
+        #                                 first_name = firstname,
+        #                                 last_name = lastname,
+        #                                 email=email,
+        #                                 password=pass1)
+        # user.save()
+        return HttpResponse('success')
+    return redirect('/')

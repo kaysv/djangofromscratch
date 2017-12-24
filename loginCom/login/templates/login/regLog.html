@@ -23,7 +23,7 @@
   {% else %}
   <div class="container">
   <div class="col-sm-5">
-    <form action="" method="POST" id="login-form">
+    <form action="" method="post" id="login-form">
       {% csrf_token %}
       <div class="imgcontainer">
         <h1>Login</h1>
@@ -38,7 +38,7 @@
     </form>
   </div>
   <div class="col-sm-offset-2 col-sm-5">
-    <form action="" id="reg-form" >
+    <form id="reg-form">
       {% csrf_token %}
       <div class="imgcontainer">
         <h1>Registration</h1>
@@ -64,8 +64,11 @@
           <input class="errorChecking" id="password1" type="password" placeholder="Enter Password" name="password1" required>
           <label><b>Retype your password</b></label>
           <input class="errorChecking" id="password2" type="password" placeholder="Enter Password" name="password2" required>
-          <button id="reg-submit" type="submit" name="LoginType" value="SignUp" >Registration</button>
+          <button id="reg-submit" name="LoginType" value="SignUp" >Registration</button>
     </form>
+    <i id="spinnerForReg" class="hidden fa fa-spinner fa-spin"></i>
+    <span id="usernameErrorLabelForReg" class="label label-danger" style="display:none;">Error Occured</span><br>
+
     <form id="abc" class="" action="index.html" method="post">
       {% csrf_token %}
     </form>
@@ -77,27 +80,7 @@
 {% endblock %}
 
 {% block extrajs %}
-  <script>
-    // $("#reg-submit").click(function(e){
-    //
-    // });
-    //
-    // $(".errorChecking").focusout(function(e){
-    //   // alert("key is up");
-    //
-    //   if(!$(this).val()){
-    //     $(this).addClass("errorasempty");
-    //     $("#usernameErrorLabel").css("display","block");
-    //     // $("#usernameErrorLabel").html("from dalfjladjfl");
-    //
-    //
-    //   }else{
-    //     $(this).removeClass("errorasempty");
-    //     $("#usernameErrorLabel").css("display","none");
-    //   }
-    //
-    // });
-  </script>
+
   <script>
     $("#username").change(function(e){
       $("#usernameErrorLabel").css("display","none");
@@ -116,11 +99,13 @@
         success:function(result){
           $("#spinner").addClass("hidden");
           if(result == "success"){
+            $("#spinner").addClass("hidden");
             $("#usernameErrorLabel").css("display","block");
             $("#usernameErrorLabel").html("available");
             $("#usernameErrorLabel").css("background","green");
 
           }else{
+            $("#spinner").addClass("hidreg-formden");
             $("#usernameErrorLabel").css("display","block");
             $("#usernameErrorLabel").html("sorry username is taken.");
             $("#usernameErrorLabel").css("background","red");
@@ -132,6 +117,40 @@
         }
       });
 
+    });
+  </script>
+  <script>
+    $("#reg-submit").click(function(e){
+      var myData = new FormData($("#reg-form")[0]);
+      $("#spinnerForReg").removeClass("hidden");
+      $.ajax({
+        type: "post",
+        url: "/regAjax/",
+        data: myData,
+        success:function(result){
+          if(result=="success"){
+            $("#spinnerForReg").addClass("hidden");
+            $("#usernameErrorLabelForReg").css("display","block");
+            $("#usernameErrorLabelForReg").html("User Registered");
+            $("#usernameErrorLabelForReg").css("background","green");
+          }else{
+            $("#spinnerForReg").addClass("hidden");
+            $("#usernameErrorLabelForReg").css("display","block");
+            $("#usernameErrorLabelForReg").html("User Cannot be Registered");
+            $("#usernameErrorLabelForReg").css("background","red");
+          }
+
+        },
+        error:function(result){
+          $("#spinnerForReg").addClass("hidden");
+          $("#usernameErrorLabelForReg").css("display","block");
+          $("#usernameErrorLabelForReg").html("User Cannot be Registered");
+          $("#usernameErrorLabelForReg").css("background","red");
+
+        },
+        contentType:false,
+        processData:false
+      });
     });
   </script>
 {% endblock %}
