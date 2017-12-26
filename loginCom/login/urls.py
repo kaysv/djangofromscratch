@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^reg/$', views.dealReg, name='DealReg'),
     url(r'^verifyuser/$', views.dealVerifyUser, name='DealVerifyUser'),
     url(r'^regAjax/$', views.dealAjaxReg, name='dealAjaxReg'),
+    url(r'^djangoform/$', views.dealDjangoForm, name='dealDjangoForm'),
 ]

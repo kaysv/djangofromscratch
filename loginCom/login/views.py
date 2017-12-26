@@ -3,8 +3,27 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 import time
+from .forms import SignUpForm
 
 # Create your views here.
+def dealDjangoForm(request):
+    signUpForm = SignUpForm()
+    context = {'signUpForm':signUpForm}
+
+    if request.method == "POST":
+        signup = SignUpForm(request.POST)
+        if signup.is_valid():
+            user = signup.save(commit=False)
+            user.is_active = True
+            user.save()
+        else:
+            print(signup.error_messages)
+
+        return HttpResponse(dict(request.POST))
+
+    return render(request,"login/djangoform.html",context)
+
+
 def homeView(request):
 
     return render(request,'login/login_page.html',{})

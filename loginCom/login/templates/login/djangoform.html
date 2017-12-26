@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'login/css/styleLogin.css' %}">
+<link rel="stylesheet" href="{% static 'login/css/user_profile.css' %}">
+<link rel="stylesheet" href="{% static 'login/css/error.css' %}">
+<link rel="stylesheet" href="{% static 'login/css/loader.css' %}">
+{% endblock %}
+
+{% block bodycontent %}
+<body>
+{% if request.user.is_authenticated %}
+<div class="container">
+  <div class="card">
+    <img src="{% static 'login/imgs/team2.jpg' %}" alt="John" style="width:100%">
+    <h1>{{request.user.username}}</h1>
+    <p class="title">CEO & Founder, Example</p>
+    <p>{{request.user.email}}</p>
+    <a href="/logout/"><small>logout</small></a>
+  </div>
+</div>
+{% else %}
+<div class="container">
+<div class="col-sm-offset-4 col-sm-4">
+  <form id="reg-form" action="" method="POST">
+    {% csrf_token %}
+    <div class="imgcontainer">
+      <h1>Registration</h1>
+      <img src="{% static 'login/imgs/img_avatar2.png' %}" alt="Avatar" class="avatar" style="">
+    </div>
+
+        <label><b>Username</b></label>
+
+        {{signUpForm.username|add_class:"form form-control"}}
+        <!-- <input class="errorChecking form-control" id="username" type="text" placeholder="Enter Username" name="username" required> -->
+        <i id="spinner" class="hidden fa fa-spinner fa-spin"></i>
+        <span id="usernameErrorLabel" class="label label-danger" style="display:none;">Error Occured</span><br>
+
+        <label><b>Email</b></label>
+        {{signUpForm.email|add_class:"form form-control"}}
+        <!-- <input class="errorChecking" id="email" type="email" placeholder="Enter Username" name="email" required> -->
+
+
+        <label><b>Password</b></label>
+        {{signUpForm.password1|add_class:"form form-control"}}
+        <!-- <input class="errorChecking" id="password1" type="password" placeholder="Enter Password" name="password1" required> -->
+        <label><b>Retype your password</b></label>
+        {{signUpForm.password2|add_class:"form form-control"}}
+        <!-- <input class="errorChecking" id="password2" type="password" placeholder="Enter Password" name="password2" required> -->
+        <button type="submit" id="reg-submit" class="form form-control" >Registration</button>
+  </form>
+  <i id="spinnerForReg" class="hidden fa fa-spinner fa-spin"></i>
+  <span id="usernameErrorLabelForReg" class="label label-danger" style="display:none;">Error Occured</span><br>
+
+  <form id="abc" class="" action="index.html" method="post">
+    {% csrf_token %}
+  </form>
+</div>
+</div>
+{% endif %}
+
+</body>
+{% endblock %}
