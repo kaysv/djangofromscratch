@@ -11,9 +11,22 @@
   {% if request.user.is_authenticated %}
   <div class="container">
     <div class="card">
-      <img src="{% static 'login/imgs/team2.jpg' %}" alt="John" style="width:100%">
+      <!-- <img src="{% static 'login/imgs/team2.jpg' %}" alt="John" style="width:100%"> -->
+      <h1>-------------------------------</h1>
+      <form class="" action="" method="post">
+        {% csrf_token %}
+        {{aform.as_p}}
+        <button type="submit" name="button" class="form-control" style="background:green;color:white;">submit</button>
+      </form>
+      <h1>-------------------------------</h1>
+      <img src="{{image.url}}" alt="John" style="width:100%">
+      <!-- <h1>{{image.url}}</h1> -->
       <h1>{{request.user.username}}</h1>
-      <h2>{{request.user.first_name}} {{request.user.last_name}}</h2>
+      <h2>{{name}}</h2>
+      <h2>{{title}}</h2>
+      <h2>{{address}}</h2>
+      <h2>{{phone}}</h2>
+      <h2>{{created_at}}</h2>
       <p class="title">CEO & Founder, Example</p>
       <p>{{request.user.email}}</p>
       <a href="/logout/"><small>logout</small></a>

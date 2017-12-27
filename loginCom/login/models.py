@@ -33,3 +33,7 @@ def save_profile(sender, instance, created, **kwargs):
     if created:
         profile = Profile(user=user)
         profile.save()
+
+class Article(models.Model):
+    name = models.CharField(max_length=100, blank=False)
+    title = models.CharField(max_length=100, blank=False)
